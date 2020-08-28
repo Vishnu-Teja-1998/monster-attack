@@ -12,29 +12,31 @@ const LOG_EVENT_MONSTER_ATTACK = "MONSTER_ATTACK";
 const LOG_EVENT_PLAYER_HEAL = "PLAYER_HEAL";
 const LOG_EVENT_GAME_OVER = "GAME_OVER";
 
+let battleLog = [];
+
 function getMaxLifeValues() {
   const enteredValue = prompt("Maximum Life for you and the monster", "100");
   const parsedValue = parseInt(enteredValue);
-  if (isNaN(parsedValue) || parsedValue < 0) {
-    throw { message: "Invalid user Input, not a Number" };
+  if (isNaN(parsedValue) || parsedValue <= 0) {
+    throw { message: "Invalid user Input, not a Number!" };
   }
+  return parsedValue;
 }
 
+let choosenMaxHealth;
+
 try {
-  let choosenMaxHealth = getMaxLifeValues();
+  choosenMaxHealth = getMaxLifeValues();
 } catch (error) {
   console.log(error);
-  choosenMaxHealth = 100;
+  choosenMaxHealth = ParseInt(100);
   alert("You entered something wrong, degault value of 100 was used.");
 }
 
 let currentMonsterMaxHealth = choosenMaxHealth;
 let currentPlayerMaxHealth = choosenMaxHealth;
 let hasBonusLife = true;
-
 adjustHealthBars(choosenMaxHealth);
-
-let battleLog = [];
 
 function writeToLog(evt, val, monsterHealth, playerHealth) {
   //evt = event, val = value
@@ -187,20 +189,18 @@ function healPlayerHandler() {
 }
 
 function printLogHandler() {
-  //
-  //FOR LOOP
-  //   for (let i = 0; i < battleLog.length; i++) {
-  //     console.log(battleLog[i]);
-  //   }
-  //
-  //FOR-OF LOOP--> Here index is not accesed for that we need to create one extra variable for accessingg index
-  let i = 0;
-  for (const logEntry of battleLog) {
-    for (const key in logEntry) {
-      console.log(`#${i}__${key}==>${logEntry[key]}`);
-    }
-    i++;
+  for (let i = 0; i < battleLog.length; i++) {
+    console.log(battleLog[i]);
   }
+
+  //FOR-OF LOOP--> Here index is not accesed for that we need to create one extra variable for accessingg index
+  //   let i = 0;
+  //   for (const logEntry of battleLog) {
+  //     for (const key in logEntry) {
+  //       console.log(`#${i}__${key}==>${logEntry[key]}`);
+  //     }
+  //     i++;
+  //   }
 }
 
 attackBtn.addEventListener("click", attackHandler);
