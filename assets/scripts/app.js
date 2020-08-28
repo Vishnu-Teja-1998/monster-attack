@@ -6,12 +6,22 @@ const HEAL_VALUE = 20;
 let choosenMaxHealth = 100;
 let currentMonsterMaxHealth = choosenMaxHealth;
 let currentPlayerMaxHealth = choosenMaxHealth;
+let hasBonusLife = true;
 
 adjustHealthBars(choosenMaxHealth);
 
 function endRound() {
+  const initalPlayerHealth = currentPlayerMaxHealth;
+
   const PlayerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerMaxHealth = currentPlayerMaxHealth - PlayerDamage;
+  if (currentPlayerMaxHealth <= 0 && hasBonusLife) {
+    hasBonusLife = false;
+    removeBonusLife();
+    currentPlayerMaxHealth = initalPlayerHealth;
+    setPlayerHealth(initalPlayerHealth);
+    alert("Youu retained by using extra Life.");
+  }
   if (currentMonsterMaxHealth <= 0 && currentPlayerMaxHealth > 0) {
     alert("You Won!");
   } else if (currentPlayerMaxHealth <= 0 && currentMonsterMaxHealth > 0) {
